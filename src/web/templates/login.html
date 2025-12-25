@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Login — SHADOW OPS</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 80px auto;
+        }
+
+        .auth-form {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .auth-form h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 28px;
+            color: var(--accent-cyan);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all var(--transition-base);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: var(--glow-cyan);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--accent-cyan);
+            background: linear-gradient(135deg, #1a2332, #0f1419);
+            color: var(--accent-cyan);
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-transform: uppercase;
+            box-shadow: var(--glow-cyan), var(--shadow-md);
+        }
+
+        .submit-btn:hover {
+            box-shadow: var(--glow-cyan-strong), var(--shadow-lg);
+            border-color: var(--accent-electric);
+            color: var(--accent-electric);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: var(--space-lg);
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .auth-link a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-link a:hover {
+            color: var(--accent-electric);
+        }
+
+        .error-message {
+            background: rgba(255, 0, 85, 0.1);
+            border: 1px solid var(--danger-red);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            margin-bottom: var(--space-lg);
+            color: var(--danger-red);
+            font-size: 13px;
+            display: none;
+        }
+
+        .success-message {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--success-green);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            margin-bottom: var(--space-lg);
+            color: var(--success-green);
+            font-size: 13px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-bg"></div>
+
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-mark">⚑</div>
+            <div class="brand-text">
+                <div class="title">SHADOW OPS</div>
+                <div class="subtitle">Sign In</div>
+            </div>
+        </div>
+        <a href="/" style="color: var(--accent-cyan); text-decoration: none;">← Back to Home</a>
+    </header>
+
+    <main class="auth-container">
+        <div class="auth-form">
+            <h1>Sign In</h1>
+
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required autocomplete="email" autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="auth-link">
+                Don't have an account? <a href="/auth/register">Create Account</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMsg = document.getElementById('errorMessage');
+            const successMsg = document.getElementById('successMessage');
+
+            // Hide messages
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Signing In...';
+
+            // Get form data
+            const formData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+
+            try {
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Login failed');
+                }
+
+                // Success! Store tokens
+                localStorage.setItem('access_token', data.access_token);
+                localStorage.setItem('refresh_token', data.refresh_token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+
+                // Show success message
+                successMsg.textContent = 'Login successful! Redirecting...';
+                successMsg.style.display = 'block';
+
+                // Redirect to main app
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+
+            } catch (error) {
+                errorMsg.textContent = error.message;
+                errorMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign In';
+            }
+        }
+    </script>
+</body>
+
+</html>

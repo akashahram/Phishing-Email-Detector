@@ -1,0 +1,14 @@
+/* Perfect height alignment fix for scan panels */
+
+/* Override previous styles to ensure exact height match */
+.scan-panel textarea,
+.file-label {
+    min-height: 280px !important;
+    max-height: 280px !important;
+    height: 280px !important;
+}
+
+/* Ensure file upload area matches */
+.file-upload-area {
+    height: 280px !important;
+}

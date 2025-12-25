@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>SHADOW OPS — Enterprise Phishing Detection</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description"
+    content="Advanced AI-powered phishing detection system with URL intelligence and email forensics">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=2.3">
+  <link rel="stylesheet" href="{{ url_for('static', filename='premium_additions.css') }}?v=2.3">
+  <script src="{{ url_for('static', filename='script.js') }}?v=2.3" defer></script>
+</head>
+
+<body>
+  <!-- Animated Grid Background -->
+  <div class="grid-bg"></div>
+
+  <!-- Header / Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">⚑</div>
+      <div class="brand-text">
+        <div class="title">SHADOW OPS</div>
+        <div class="subtitle">Enterprise Phishing Detection</div>
+      </div>
+    </div>
+    <div class="status">
+      <span id="serverStatus">Ready</span>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- Scan Input Section -->
+    <div class="scan-section">
+
+      <!-- Text Scan Panel -->
+      <section class="panel scan-panel">
+        <div class="panel-header">
+          <div class="panel-icon">📝</div>
+          <h2 class="panel-title">Scan Email Text</h2>
+        </div>
+        <textarea id="emailText"
+          placeholder="Paste raw email text, message body, or suspicious content here for analysis..."
+          spellcheck="false"></textarea>
+        <button class="btn btn-primary" id="scanTextBtn" onclick="scanText()">
+          <span class="btn-icon">🔍</span>
+          <span>START SCAN</span>
+          <span class="btn-glow"></span>
+        </button>
+        <div class="hint">ML + URL Intelligence + Forensics</div>
+      </section>
+
+      <!-- EML File Upload Panel -->
+      <section class="panel eml-panel">
+        <div class="panel-header">
+          <div class="panel-icon">📧</div>
+          <h2 class="panel-title">Upload .eml File</h2>
+        </div>
+        <div class="file-upload-area">
+          <input id="emlFile" type="file" accept=".eml,.msg" aria-label="Upload email file" />
+          <label for="emlFile" class="file-label">
+            <span class="file-icon">📎</span>
+            <span class="file-text">Choose file or drag here</span>
+          </label>
+        </div>
+        <button class="btn btn-secondary" id="scanEmlBtn" onclick="scanEML()">
+          <span class="btn-icon">⚡</span>
+          <span>SCAN FILE</span>
+          <span class="btn-glow"></span>
+        </button>
+        <div class="hint">Full header analysis • Body extraction</div>
+      </section>
+
+    </div>
+
+    <!-- Progress Section -->
+    <section id="progressSection" class="progress-section" style="display: none;">
+      <div class="progress-container">
+        <div class="progress-header">
+          <span class="progress-label">Analyzing...</span>
+          <span class="progress-percentage" id="progressPercentage">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">Initializing scan...</div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="resultsSection" class="results-section" style="display: none;">
+
+      <!-- Main Result Card -->
+      <div id="resultCard" class="result-card">
+        <div class="result-header">
+          <div class="result-icon" id="resultIcon">⟳</div>
+          <div class="result-content">
+            <h3 class="result-title" id="resultTitle">Analyzing...</h3>
+            <p class="result-subtitle" id="resultSubtitle">Please wait...</p>
+          </div>
+        </div>
+
+        <div class="result-body">
+          <div class="probability-section">
+            <div class="probability-label">Threat Probability</div>
+            <div class="probability-value" id="probabilityValue">--</div>
+            <div class="probability-bar">
+              <div class="probability-fill" id="probabilityFill"></div>
+            </div>
+          </div>
+
+          <div class="scores-grid" id="scoresGrid">
+            <!-- Scores will be inserted here -->
+          </div>
+
+          <div class="reason-section" id="reasonSection">
+            <div class="reason-label">Detection Reason</div>
+            <div class="reason-text" id="reasonText">--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Findings -->
+      <div id="findingsContainer" class="findings-container">
+        <!-- Findings will be inserted here -->
+      </div>
+
+      <!-- Signals Grid -->
+      <div id="signalsGrid" class="signals-grid">
+        <!-- Signals will be inserted here -->
+      </div>
+
+      <!-- Cleaned Email Text -->
+      <div id="cleanedText" class="cleaned-text-container"></div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div>SHADOW OPS v2.0 • Commercial Edition</div>
+      <div class="small">
+        Powered by ML + URL Intelligence + Email Forensics |
+        <a href="/privacy">Privacy</a> |
+        <a href="/terms">Terms</a>
+      </div>
+    </footer>
+  </main>
+</body>
+
+</html>

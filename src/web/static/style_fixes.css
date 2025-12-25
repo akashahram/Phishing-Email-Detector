@@ -1,0 +1,430 @@
+/* CSS Fixes for Perfect Alignment and Premium Results */
+
+/* ═══════════════════════════════════════════════════════════
+   SCAN PANEL ALIGNMENT FIXES
+   ═══════════════════════════════════════════════════════════ */
+
+/* Make both panels equal height and perfectly aligned */
+.scan-panel,
+.eml-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 500px;
+}
+
+/* Ensure input areas take equal space */
+.scan-input-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--space-lg);
+}
+
+/* Make textarea fill available space */
+.scan-panel textarea {
+    flex: 1;
+    min-height: 250px;
+    height: 100%;
+}
+
+/* Make file upload area same height as textarea */
+.file-upload-area {
+    flex: 1;
+    display: flex;
+}
+
+.file-label {
+    flex: 1;
+    min-height: 250px;
+}
+
+/* Align buttons and hints at bottom */
+.scan-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM RESULTS DESIGN
+   ═══════════════════════════════════════════════════════════ */
+
+/* Enhanced result card with better visual hierarchy */
+.result-card {
+    background: linear-gradient(135deg, rgba(10, 14, 20, 0.95), rgba(15, 20, 25, 0.95));
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: 0;
+    backdrop-filter: blur(30px) saturate(180%);
+    box-shadow:
+        var(--shadow-2xl),
+        0 0 60px rgba(0, 217, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    margin-bottom: var(--space-xl);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animated top border */
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+            var(--accent-cyan),
+            var(--accent-electric),
+            var(--accent-purple),
+            var(--accent-cyan));
+    background-size: 200% 100%;
+    animation: gradientFlow 3s linear infinite;
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+.result-card.safe::before {
+    background: linear-gradient(90deg,
+            var(--success-green),
+            #00cc70,
+            var(--success-green));
+    background-size: 200% 100%;
+}
+
+.result-card.phish::before {
+    background: linear-gradient(90deg,
+            var(--danger-red),
+            #ff3377,
+            var(--danger-red));
+    background-size: 200% 100%;
+    animation: gradientFlow 1.5s linear infinite, alertPulse 2s ease-in-out infinite;
+}
+
+/* Enhanced result header */
+.result-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    padding: var(--space-2xl);
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.03), transparent);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.result-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(0, 217, 255, 0.1), transparent 60%);
+    pointer-events: none;
+}
+
+.result-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(168, 85, 247, 0.15));
+    border: 3px solid rgba(0, 217, 255, 0.4);
+    border-radius: var(--radius-xl);
+    box-shadow:
+        var(--glow-cyan),
+        inset 0 0 20px rgba(0, 217, 255, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.result-card.safe .result-icon {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 204, 112, 0.15));
+    border-color: var(--success-green);
+    box-shadow:
+        var(--glow-green),
+        inset 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.result-card.phish .result-icon {
+    background: linear-gradient(135deg, rgba(255, 0, 85, 0.15), rgba(255, 51, 119, 0.15));
+    border-color: var(--danger-red);
+    box-shadow:
+        var(--glow-red),
+        inset 0 0 20px rgba(255, 0, 85, 0.2);
+}
+
+.result-content {
+    flex: 1;
+    z-index: 1;
+}
+
+.result-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: var(--space-sm);
+    line-height: 1.2;
+    letter-spacing: 2px;
+}
+
+.result-card.safe .result-title {
+    background: linear-gradient(90deg, var(--success-green), #00cc70);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5));
+}
+
+.result-card.phish .result-title {
+    background: linear-gradient(90deg, var(--danger-red), #ff3377);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 85, 0.5));
+}
+
+.result-subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+/* Enhanced result body */
+.result-body {
+    padding: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+/* Premium probability section */
+.probability-section {
+    text-align: center;
+    padding: var(--space-2xl);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.probability-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(0, 217, 255, 0.05), transparent 70%);
+    animation: probabilityGlow 3s ease-in-out infinite;
+}
+
+@keyframes probabilityGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.probability-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+    position: relative;
+    z-index: 1;
+}
+
+.probability-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 64px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-electric));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-lg);
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.6));
+}
+
+/* Enhanced probability bar */
+.probability-bar {
+    margin-top: var(--space-lg);
+    height: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.probability-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg,
+            var(--accent-cyan),
+            var(--accent-electric),
+            var(--accent-purple));
+    background-size: 200% 100%;
+    animation: progressShimmer 2s linear infinite;
+    box-shadow: 0 0 20px currentColor;
+}
+
+.result-card.safe .probability-fill {
+    background: linear-gradient(90deg, var(--success-green), #00cc70);
+    background-size: 200% 100%;
+}
+
+.result-card.phish .probability-fill {
+    background: linear-gradient(90deg, var(--danger-red), #ff3377);
+    background-size: 200% 100%;
+}
+
+/* Premium scores grid */
+.scores-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+}
+
+.score-item {
+    padding: var(--space-lg);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 4px solid var(--accent-cyan);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.score-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), transparent);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.score-item:hover {
+    border-left-width: 6px;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg), var(--glow-cyan);
+}
+
+.score-item:hover::before {
+    opacity: 1;
+}
+
+.score-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-sm);
+}
+
+.score-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 32px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-electric));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.4));
+}
+
+/* Premium reason section */
+.reason-section {
+    padding: var(--space-xl);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--accent-cyan);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 4px solid var(--accent-cyan);
+    position: relative;
+    overflow: hidden;
+}
+
+.reason-section::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+    box-shadow: 0 0 10px currentColor;
+}
+
+.reason-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.reason-label::before {
+    content: '▸';
+    color: var(--accent-cyan);
+    font-size: 18px;
+}
+
+.reason-text {
+    font-size: 15px;
+    color: var(--text-primary);
+    line-height: 1.8;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 968px) {
+    .scores-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .result-title {
+        font-size: 24px;
+    }
+
+    .probability-value {
+        font-size: 48px;
+    }
+
+    .score-value {
+        font-size: 24px;
+    }
+}
